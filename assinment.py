@@ -1,19 +1,23 @@
 import json
-#=======================Creating a Class with the name of Person=============================
+
+
+# =======================Creating a Class with the name of Person=============================
 class Person:
     def __init__(self, name, age, address):
         self.name = name
         self.age = age
         self.address = address
 
-#==================Creating a method with for displaying person Information========================
- 
+    # ==================Creating a method with for displaying person Information========================
+
     def display_person_info(self):
         print(f"Name: {self.name}")
         print(f"Age: {self.age}")
         print(f"Address: {self.address}")
 
-#==========================Creating a new class with the name of Student===========================
+
+# ==========================Creating a new class with the name of Student===========================
+
 
 class Student(Person):
     def __init__(self, name, age, address, student_id):
@@ -22,29 +26,30 @@ class Student(Person):
         self.grades = {}
         self.courses = []
 
-
-#=========================Creating a method for Adding Grade for a student=========================
+    # =========================Creating a method for Adding Grade for a student=========================
 
     def add_grade(self, subject, grade):
         self.grades[subject] = grade
 
-#=========================Creating a method for how many  courses are available====================
+    # =========================Creating a method for how many  courses are available====================
 
     def enroll_course(self, course_code):
         if course_code not in self.courses:
             self.courses.append(course_code)
 
-
-#======================Creating a method for displaying student information========================
+    # ======================Creating a method for displaying student information========================
 
     def display_student_info(self):
         self.display_person_info()
         print(f"ID: {self.student_id}")
-        print(f"Enrolled Courses: {', '.join(self.courses) if self.courses else 'None'}")
+        print(
+            f"Enrolled Courses: {', '.join(self.courses) if self.courses else 'None'}"
+        )
         print(f"Grades: {self.grades if self.grades else 'None'}")
 
 
-#=======================Creating A Class for Courses ============================
+# =======================Creating A Class for Courses ============================
+
 
 class Course:
     def __init__(self, course_name, course_code, instructor):
@@ -53,47 +58,55 @@ class Course:
         self.instructor = instructor
         self.students = []
 
-#=====================Creating a method for adding student in a course==========================
+    # =====================Creating a method for adding student in a course==========================
 
     def add_student(self, student_id):
         if student_id not in self.students:
             self.students.append(student_id)
 
-#==================Creating A Method for Displaying Course Information=========================
+    # ==================Creating A Method for Displaying Course Information=========================
 
     def display_course_info(self, students_dict):
         print(f"Course Name: {self.course_name}")
         print(f"Code: {self.course_code}")
         print(f"Instructor: {self.instructor}")
-        enrolled_names = [students_dict[sid].name for sid in self.students if sid in students_dict]
-        print(f"Enrolled Students: {', '.join(enrolled_names) if enrolled_names else 'None'}")
+        enrolled_names = [
+            students_dict[sid].name for sid in self.students if sid in students_dict
+        ]
+        print(
+            f"Enrolled Students: {', '.join(enrolled_names) if enrolled_names else 'None'}"
+        )
 
-#=====================Creating A new class for Student Management and Course Management===================
+
+# =====================Creating A new class for Student Management and Course Management===================
+
 
 class StudentManagementSystem:
     def __init__(self):
         self.students = {}
-        self.courses = {} 
+        self.courses = {}
 
-#==========================Adding Student in Students Dictionary===============================
+    # ==========================Adding Student in Students Dictionary===============================
 
     def add_student(self, name, age, address, student_id):
         if student_id in self.students:
             print("Student ID already exists.")
-            return 
+            return
         self.students[student_id] = Student(name, age, address, student_id)
         print(f"Student {name} (ID: {student_id}) added successfully.")
 
-#==========Adding course in Courses Dictionary It will show how many Courses are running============
+    # ==========Adding course in Courses Dictionary It will show how many Courses are running============
 
     def add_course(self, course_name, course_code, instructor):
         if course_code in self.courses:
             print("Course code already exists.")
             return
         self.courses[course_code] = Course(course_name, course_code, instructor)
-        print(f"Course {course_name} (Code: {course_code}) created with instructor {instructor}.")
+        print(
+            f"Course {course_name} (Code: {course_code}) created with instructor {instructor}."
+        )
 
-#===============This Method is for Enrolling student in a Course=================
+    # ===============This Method is for Enrolling student in a Course=================
 
     def enroll_student_in_course(self, student_id, course_code):
         if student_id not in self.students:
@@ -108,7 +121,7 @@ class StudentManagementSystem:
         course.add_student(student_id)
         print(f"Student {student.name} enrolled in {course.course_name}.")
 
-#===================Adding grade for a student =================
+    # ===================Adding grade for a student =================
 
     def add_grade_for_student(self, student_id, course_code, grade):
         if student_id not in self.students:
@@ -122,9 +135,11 @@ class StudentManagementSystem:
             print("Student is not enrolled in this course.")
             return
         student.add_grade(self.courses[course_code].course_name, grade)
-        print(f"Grade {grade} added for {student.name} in {self.courses[course_code].course_name}.")
+        print(
+            f"Grade {grade} added for {student.name} in {self.courses[course_code].course_name}."
+        )
 
-#==========================Displaying Student Details=========================
+    # ==========================Displaying Student Details=========================
 
     def display_student_details(self, student_id):
         if student_id not in self.students:
@@ -133,7 +148,7 @@ class StudentManagementSystem:
         print("Student Information:")
         self.students[student_id].display_student_info()
 
-#========================for Displaying Course Details==========================
+    # ========================for Displaying Course Details==========================
 
     def display_course_details(self, course_code):
         if course_code not in self.courses:
@@ -142,7 +157,7 @@ class StudentManagementSystem:
         print("Course Information:")
         self.courses[course_code].display_course_info(self.students)
 
-#=============================This is a function it will save all the information about Student and Courses in a file name student_management_system as json=============
+    # =============================This is a function it will save all the information about Student and Courses in a file name student_management_system as json=============
 
     def save_data(self, filename="student_management_data.json"):
         data = {
@@ -153,17 +168,19 @@ class StudentManagementSystem:
                     "address": s.address,
                     "student_id": s.student_id,
                     "grades": s.grades,
-                    "courses": s.courses
-                } for sid, s in self.students.items()
+                    "courses": s.courses,
+                }
+                for sid, s in self.students.items()
             },
             "courses": {
                 cid: {
                     "course_name": c.course_name,
                     "course_code": c.course_code,
                     "instructor": c.instructor,
-                    "students": c.students
-                } for cid, c in self.courses.items()
-            }
+                    "students": c.students,
+                }
+                for cid, c in self.courses.items()
+            },
         }
         with open(filename, "w") as f:
             json.dump(data, f, indent=4)
@@ -187,7 +204,9 @@ class StudentManagementSystem:
             print("Data loaded successfully.")
         except FileNotFoundError:
             print("No saved data found.")
-#===============cli information is here================
+
+
+# ===============cli information is here================
 def main():
     sms = StudentManagementSystem()
     while True:
@@ -236,7 +255,10 @@ def main():
             print("Exiting Student Management System. Goodbye!")
             break
         else:
-            print("Invalid option. Please try again.") # if we use the number less than 0 and greater than 8 it will say Invalid option Please Try again.
+            print(
+                "Invalid option. Please try again."
+            )  # if we use the number less than 0 and greater than 8 it will say Invalid option Please Try again.
+
 
 if __name__ == "__main__":
     main()
