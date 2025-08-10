@@ -187,7 +187,7 @@ class StudentManagementSystem:
             print("Data loaded successfully.")
         except FileNotFoundError:
             print("No saved data found.")
-
+#===============cli information is here================
 def main():
     sms = StudentManagementSystem()
     while True:
@@ -236,7 +236,7 @@ def main():
             print("Exiting Student Management System. Goodbye!")
             break
         else:
-            print("Invalid option. Please try again.")
+            print("Invalid option. Please try again.") # if we use the number less than 0 and greater than 8 it will say Invalid option Please Try again.
 
 if __name__ == "__main__":
     main()
